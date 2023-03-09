@@ -1,4 +1,4 @@
-﻿namespace NotesAPI.Entities
+﻿namespace NotesAPI.Models.Entities
 {
     public class User
     {
@@ -9,6 +9,8 @@
         public string Password { get; set; }
 
 
+        public virtual ICollection<Note>? Notes{ get; set; }
+        public virtual ICollection<NotesGroup>? NotesGroups { get; set; }
 
 
 
