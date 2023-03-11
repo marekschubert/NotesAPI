@@ -8,8 +8,10 @@ namespace NotesAPI.Models.Entities
         public string Name { get; set; }
         public GroupType GroupType { get; set; } = GroupType.None;
 
-        public virtual ICollection<User> Users { get; set; }
-        public virtual ICollection<Note>? Notes { get; set; }
+
+        public List<User> Users { get; set; }
+
+        public List<Note> Notes { get; set; }
 
 
 

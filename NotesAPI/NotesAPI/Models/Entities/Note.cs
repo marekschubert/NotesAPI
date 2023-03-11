@@ -8,11 +8,12 @@
         public bool IsPublic { get; set; } = false;
         public DateTime CreationDate { get; set; } = DateTime.Now;
 
-        public int CreatorId { get; set; }
-        public virtual User Creator { get; set; }
+      //  public int CreatorId { get; set; }
+      //  public virtual User Creator { get; set; }
 
-        public virtual ICollection<User> Users { get; set; }
-        public virtual ICollection<NotesGroup> NotesGroups { get; set; }
+        public List<User> Users { get; set; }
+
+        public List<NotesGroup> NotesGroups { get; set; }
 
 
 

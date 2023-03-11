@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using NotesAPI.Models;
+using NotesAPI.Repository;
+using NotesAPI.Repository.Implementations;
+using NotesAPI.Repository.Interfaces;
 
 namespace NotesAPI
 {
@@ -16,8 +19,14 @@ namespace NotesAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<MainDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("NotesApiDb")));
+            builder.Services.AddScoped<INoteService, NoteService>();
+            builder.Services.AddScoped<NotesApiSeeder>();
 
             var app = builder.Build();
+            
+            var scope = app.Services?.CreateScope();
+            var seeder = scope?.ServiceProvider.GetRequiredService<NotesApiSeeder>();
+            seeder?.Seed();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

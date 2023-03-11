@@ -9,8 +9,9 @@
         public string Password { get; set; }
 
 
-        public virtual ICollection<Note>? Notes{ get; set; }
-        public virtual ICollection<NotesGroup>? NotesGroups { get; set; }
+        public List<Note> Notes{ get; set; }
+
+        public List<NotesGroup> NotesGroups { get; set; }
 
 
 

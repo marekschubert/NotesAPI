@@ -11,9 +11,8 @@ namespace NotesAPI.Models.EntitiesConfiguration
             builder.HasKey(x => x.Id);
 
             builder.HasMany(ng => ng.Users)
-                .WithMany(u => u.NotesGroups)
-                .UsingEntity(j => j.ToTable("UsersNotesGroups"));
-
+                .WithMany(u => u.NotesGroups);
+                
 
         }
     }
