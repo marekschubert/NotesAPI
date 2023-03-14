@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.IdentityModel.Tokens;
+using NotesAPI.Models.Dto;
 using NotesAPI.Models.Entities;
 using NotesAPI.Repository.Interfaces;
 
@@ -18,7 +19,7 @@ namespace NotesAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<Note> GetAll() 
+        public ActionResult<NoteDto> GetAll() 
         {
             var notes = _noteService.GetAll();
             return Ok(notes);

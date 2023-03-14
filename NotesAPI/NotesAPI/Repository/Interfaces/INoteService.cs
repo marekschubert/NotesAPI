@@ -1,9 +1,10 @@
-﻿using NotesAPI.Models.Entities;
+﻿using NotesAPI.Models.Dto;
+using NotesAPI.Models.Entities;
 
 namespace NotesAPI.Repository.Interfaces
 {
     public interface INoteService
     {
-        IEnumerable<Note> GetAll();
+        IEnumerable<NoteDto> GetAll();
     }
 }

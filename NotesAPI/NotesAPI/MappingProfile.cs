@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using NotesAPI.Models.Dto;
+using NotesAPI.Models.Entities;
 
 namespace NotesAPI
 {
@@ -7,7 +9,10 @@ namespace NotesAPI
 
         public MappingProfile()
         {
-
+            CreateMap<Note, NoteDto>()
+                .ForMember(dto => dto.UsersData, x => x.MapFrom(x => x.Users));
+            
+            CreateMap<User, UserDataDto>();
 
 
         }

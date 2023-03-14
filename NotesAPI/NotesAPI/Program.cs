@@ -21,6 +21,7 @@ namespace NotesAPI
             builder.Services.AddDbContext<MainDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("NotesApiDb")));
             builder.Services.AddScoped<INoteService, NoteService>();
             builder.Services.AddScoped<NotesApiSeeder>();
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             var app = builder.Build();
             
