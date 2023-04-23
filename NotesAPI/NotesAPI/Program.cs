@@ -23,6 +23,8 @@ namespace NotesAPI
             builder.Services.AddScoped<NotesApiSeeder>();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            
+
             var app = builder.Build();
             
             var scope = app.Services?.CreateScope();
