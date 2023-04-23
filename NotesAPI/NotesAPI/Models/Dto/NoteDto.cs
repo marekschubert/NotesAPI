@@ -1,14 +1,11 @@
-﻿namespace NotesAPI.Models.Dto
+﻿using NotesAPI.Models.Dto.Data;
+
+namespace NotesAPI.Models.Dto
 {
     public class NoteDto
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Text { get; set; }
-        public bool IsPublic { get; set; } = false;
-        public DateTime CreationDate { get; set; } = DateTime.Now;
-
+        public NoteDataDto NoteData { get; set; }
         public List<UserDataDto> UsersData { get; set; }
-
+        public List<NotesGroupDataDto> NotesGroupData { get; set; }
     }
 }

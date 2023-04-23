@@ -21,7 +21,7 @@ namespace NotesAPI.Controllers
         [HttpGet]
         public ActionResult<NoteDto> GetAll() 
         {
-            var notes = _noteService.GetAll();
+            var notes = _noteService.GetAllNotes();
             return Ok(notes);
         }
 

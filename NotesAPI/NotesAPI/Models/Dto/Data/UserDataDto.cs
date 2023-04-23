@@ -1,4 +1,4 @@
-﻿namespace NotesAPI.Models.Dto
+﻿namespace NotesAPI.Models.Dto.Data
 {
     public class UserDataDto
     {

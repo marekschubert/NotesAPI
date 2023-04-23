@@ -12,7 +12,7 @@ using NotesAPI.Models;
 namespace NotesAPI.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    [Migration("20230311114201_Init")]
+    [Migration("20230423154548_Init")]
     partial class Init
     {
         /// <inheritdoc />

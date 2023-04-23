@@ -17,7 +17,7 @@ namespace NotesAPI
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(); //https://localhost:7037/swagger/index.html
             builder.Services.AddDbContext<MainDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("NotesApiDb")));
             builder.Services.AddScoped<INoteService, NoteService>();
             builder.Services.AddScoped<NotesApiSeeder>();
