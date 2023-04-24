@@ -4,8 +4,8 @@ namespace NotesAPI.Models.Dto
 {
     public class UserDto
     {
-        public UserDataDto UsersData { get; set; }
-        public List<NotesGroupDataDto> NotesGroupData { get; set; }
-        public List<NoteDataDto> NotseData { get; set; }
+        public UserDataDto UserData { get; set; }
+        public List<NotesGroupDataDto> NotesGroupsData { get; set; }
+        public List<NoteDataDto> NotesData { get; set; }
     }
 }

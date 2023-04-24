@@ -6,6 +6,6 @@ namespace NotesAPI.Models.Dto
     {
         public NotesGroupDataDto NotesGroupData { get; set; }
         public List<UserDataDto> UsersData { get; set; }
-        public List<NoteDataDto> NotseData { get; set; }
+        public List<NoteDataDto> NotesData { get; set; }
     }
 }
