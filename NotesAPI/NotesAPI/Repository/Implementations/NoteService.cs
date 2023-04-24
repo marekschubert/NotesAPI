@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using NotesAPI.Exceptions;
 using NotesAPI.Models;
 using NotesAPI.Models.Dto;
 using NotesAPI.Models.Dto.CreationDto;
@@ -13,15 +14,17 @@ namespace NotesAPI.Repository.Implementations
     {
         private readonly MainDbContext _dbContext;
         private readonly IMapper _mapper;
-
-        public NoteService(MainDbContext dbContext, IMapper mapper)
+        private readonly ILogger<NoteService> _logger;
+        public NoteService(MainDbContext dbContext, IMapper mapper, ILogger<NoteService> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public IEnumerable<NoteDto> GetAllNotes()
         {
+            _logger.LogInformation($"GET GetAllNotes invoked");
             var notes = _dbContext.Notes
                 .Include(n => n.Users)
                 .Include(n => n.NotesGroups);
@@ -33,6 +36,7 @@ namespace NotesAPI.Repository.Implementations
 
         public NoteDto GetNoteById(int noteId)
         {
+            _logger.LogInformation($"GET GetNoteById with {noteId} invoked");
             var note = _dbContext.Notes
                 .Include(n => n.Users)
                 .Include(n => n.NotesGroups)
@@ -44,6 +48,7 @@ namespace NotesAPI.Repository.Implementations
         }
         public bool UpdateNote(int id, NoteDataDto dto)
         {
+            _logger.LogInformation($"PUT UpdateNote with {id} invoked");
             var note = _dbContext.Notes.FirstOrDefault(n => n.Id == id);
             if (note == null)
             {
@@ -57,10 +62,11 @@ namespace NotesAPI.Repository.Implementations
         }
         public bool DeleteNote(int noteId)
         {
+            _logger.LogWarning($"DELETE DeleteNote with {noteId} invoked");
             var note = _dbContext.Notes.FirstOrDefault(n => n.Id == noteId);
             if (note is null)
             {
-                return false;
+                throw new NotFoundException("Note not found");
             }
 
             _dbContext.Notes.Remove(note);
@@ -70,6 +76,7 @@ namespace NotesAPI.Repository.Implementations
 
         public int AddNote(CreateNoteDto dto)
         {
+            _logger.LogInformation($"POST AddNote invoked");
             var user = _dbContext.Users.FirstOrDefault(u => u.Id == dto.UserId);
             var notesGroup = _dbContext.NotesGroups.FirstOrDefault(u => u.Id == dto.NotesGroupId);
             if (user is null || notesGroup is null)

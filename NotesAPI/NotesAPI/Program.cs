@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using NLog.Web;
+using NotesAPI.Middleware;
 using NotesAPI.Models;
 using NotesAPI.Repository;
 using NotesAPI.Repository.Implementations;
@@ -12,6 +14,8 @@ namespace NotesAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddScoped<ErrorHandlingMiddleware>();
+
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -22,7 +26,9 @@ namespace NotesAPI
             builder.Services.AddScoped<INoteService, NoteService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<NotesApiSeeder>();
+
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            
 
             builder.Services.AddCors(options =>
             {
@@ -34,12 +40,17 @@ namespace NotesAPI
                 });
             });
 
+            builder.Logging.ClearProviders();
+            builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+            builder.Host.UseNLog();
 
             var app = builder.Build();
             
+            app.UseMiddleware<ErrorHandlingMiddleware> ();
+
             var scope = app.Services?.CreateScope();
             var seeder = scope?.ServiceProvider.GetRequiredService<NotesApiSeeder>();
-            seeder?.Seed();
+            seeder?.Seed(); 
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
