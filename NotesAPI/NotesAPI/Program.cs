@@ -24,6 +24,17 @@ namespace NotesAPI
             builder.Services.AddScoped<NotesApiSeeder>();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("FrontEndClient", options =>
+                {
+                    options.AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .WithOrigins(builder.Configuration["AllowedOrigins"]); // sekcja w appsettings.json, "AllowedOrigins": "http://localhost:8080"
+                });
+            });
+
+
             var app = builder.Build();
             
             var scope = app.Services?.CreateScope();
@@ -36,6 +47,8 @@ namespace NotesAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("FrontEndClient");
 
             app.UseHttpsRedirection();
 
