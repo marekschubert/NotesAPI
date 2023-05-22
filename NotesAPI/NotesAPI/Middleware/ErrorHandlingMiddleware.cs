@@ -21,6 +21,11 @@ namespace NotesAPI.Middleware
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(e.Message);
             }
+            catch (InvalidLoginAttempt e)
+            {
+                context.Response.StatusCode = 403;
+                await context.Response.WriteAsync(e.Message);
+            }
             catch (Exception e)
             {
                 _logger.LogError(e, e.Message);

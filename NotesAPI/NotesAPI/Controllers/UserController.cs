@@ -3,6 +3,7 @@ using NotesAPI.Models.Dto.CreationDto;
 using NotesAPI.Models.Dto.Data;
 using NotesAPI.Models.Dto;
 using NotesAPI.Repository.Interfaces;
+using NotesAPI.Models.Dto.LoginDto;
 
 namespace NotesAPI.Controllers
 {
@@ -29,6 +30,13 @@ namespace NotesAPI.Controllers
         {
             var user = _userService.GetUserById(id);
             return Ok(user);
+        }
+
+        [HttpPost("login")]
+        public ActionResult<UserDto> LoginUser([FromBody] UserLoginDto dto)
+        {
+            var userId = _userService.LoginUser(dto.Email, dto.Password);
+            return Ok(userId);
         }
 
         [HttpPost]

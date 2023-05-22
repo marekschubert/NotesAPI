@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using NotesAPI.Exceptions;
 using NotesAPI.Models;
 using NotesAPI.Models.Dto;
 using NotesAPI.Models.Dto.CreationDto;
@@ -67,6 +68,17 @@ namespace NotesAPI.Repository.Implementations
             return result;
         }
 
+        public int LoginUser(string email, string password)
+        {
+            var person = _dbContext.Users.Where(u => u.Email == email).FirstOrDefault();
+            if (person != null && person.Password == password)
+            {
+                return person.Id;
+            }
+            //return -1; 
+            throw new InvalidLoginAttempt("Invalid username or password");
+        }
+
         public bool UpdateUser(int id, UserDataDto dto)
         {
             var user = _dbContext.Users.FirstOrDefault(n => n.Id == id);
@@ -81,5 +93,8 @@ namespace NotesAPI.Repository.Implementations
             _dbContext.SaveChanges();
             return true;
         }
+
+
+
     }
 }
