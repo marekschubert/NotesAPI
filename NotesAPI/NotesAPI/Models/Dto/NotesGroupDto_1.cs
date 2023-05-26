@@ -2,7 +2,7 @@
 
 namespace NotesAPI.Models.Dto
 {
-    public class NoteDto
+    public class NotesGroupDto
     {
         public NoteDataDto NoteData { get; set; }
         public List<UserDataDto> UsersData { get; set; }

@@ -21,14 +21,14 @@ namespace NotesAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<NoteDto>> GetAllNotes() 
+        public ActionResult<IEnumerable<NotesGroupDto>> GetAllNotes() 
         {
             var notes = _noteService.GetAllNotes();
             return Ok(notes);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<NoteDto> GetNoteById([FromRoute] int id)
+        public ActionResult<NotesGroupDto> GetNoteById([FromRoute] int id)
         {
             var note = _noteService.GetNoteById(id);
             return Ok(note);

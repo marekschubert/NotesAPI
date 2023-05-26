@@ -22,19 +22,19 @@ namespace NotesAPI.Repository.Implementations
             _logger = logger;
         }
 
-        public IEnumerable<NoteDto> GetAllNotes()
+        public IEnumerable<NotesGroupDto> GetAllNotes()
         {
             _logger.LogInformation($"GET GetAllNotes invoked");
             var notes = _dbContext.Notes
                 .Include(n => n.Users)
                 .Include(n => n.NotesGroups);
 
-            var notesDtos = _mapper.Map<List<NoteDto>>(notes);
+            var notesDtos = _mapper.Map<List<NotesGroupDto>>(notes);
 
             return notesDtos;
         }
 
-        public NoteDto GetNoteById(int noteId)
+        public NotesGroupDto GetNoteById(int noteId)
         {
             _logger.LogInformation($"GET GetNoteById with {noteId} invoked");
             var note = _dbContext.Notes
@@ -42,7 +42,7 @@ namespace NotesAPI.Repository.Implementations
                 .Include(n => n.NotesGroups)
                 .FirstOrDefault(n => n.Id == noteId);
 
-            var result = note == null ? null : _mapper.Map<NoteDto>(note);
+            var result = note == null ? null : _mapper.Map<NotesGroupDto>(note);
             
             return result;
         }
