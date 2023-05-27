@@ -23,8 +23,11 @@ namespace NotesAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(); //https://localhost:7037/swagger/index.html
             builder.Services.AddDbContext<MainDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("NotesApiDb")));
+            
             builder.Services.AddScoped<INoteService, NoteService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<INotesGroupService, NotesGroupService>();
+            
             builder.Services.AddScoped<NotesApiSeeder>();
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

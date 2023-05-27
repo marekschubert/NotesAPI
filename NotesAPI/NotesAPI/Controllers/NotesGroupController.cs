@@ -1,60 +1,55 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NotesAPI.Models.Dto;
 using NotesAPI.Models.Dto.CreationDto;
 using NotesAPI.Models.Dto.Data;
-using NotesAPI.Models.Dto;
 using NotesAPI.Repository.Interfaces;
 
 namespace NotesAPI.Controllers
 {
+    [Route("/api/notes_group")]
+    [ApiController]
     public class NotesGroupController : ControllerBase
     {
+        private readonly INotesGroupService _notesGroupService;
 
-        [Route("/api/note")]
-        [ApiController]
-        public class NoteController : ControllerBase
+        public NotesGroupController(INotesGroupService notesGroupService)
         {
-            private readonly INotesGroupService _noteService;
-
-            public NoteController(INoteService noteService)
-            {
-                _noteService = noteService;
-            }
-
-            [HttpGet]
-            public ActionResult<IEnumerable<NotesGroupDto>> GetAllNotes()
-            {
-                var notes = _noteService.GetAllNotes();
-                return Ok(notes);
-            }
-
-            [HttpGet("{id}")]
-            public ActionResult<NotesGroupDto> GetNoteById([FromRoute] int id)
-            {
-                var note = _noteService.GetNoteById(id);
-                return Ok(note);
-            }
-
-            [HttpPost]
-            public ActionResult AddNote([FromBody] CreateNoteDto dto)
-            {
-                var noteId = _noteService.AddNote(dto);
-                return Created($"/api/note/{noteId}", null);
-            }
-
-            [HttpDelete("{id}")]
-            public ActionResult DeleteNote([FromRoute] int id)
-            {
-                _noteService.DeleteNote(id);
-                return NotFound();
-            }
-
-            [HttpPut("{id}")]
-            public ActionResult UpdateNote([FromRoute] int id, [FromBody] NoteDataDto dto)
-            {
-                _noteService.UpdateNote(id, dto);
-                return Ok();
-            }
-
+            _notesGroupService = notesGroupService;
         }
+
+        [HttpGet]
+        public ActionResult<IEnumerable<NotesGroupDto>> GetAllNotesGroups()
+        {
+            var notesGroups = _notesGroupService.GetAllNotesGroups();
+            return Ok(notesGroups);
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<NotesGroupDto> GetNotesGroupById([FromRoute] int id)
+        {
+            var notesGroup = _notesGroupService.GetNotesGroupById(id);
+            return Ok(notesGroup);
+        }
+
+        [HttpPost]
+        public ActionResult AddNotesGroup([FromBody] CreateNotesGroupDto dto)
+        {
+            var notesGroupId = _notesGroupService.AddNotesGroup(dto);
+            return Created($"/api/notesGroup/{notesGroupId}", null);
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteNotesGroup([FromRoute] int id)
+        {
+            _notesGroupService.DeleteNotesGroup(id);
+            return NotFound();
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdateNote([FromRoute] int id, [FromBody] NotesGroupDataDto dto)
+        {
+            _notesGroupService.UpdateNotesGroup(id, dto);
+            return Ok();
+        }        
     }
 }

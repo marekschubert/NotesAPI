@@ -15,7 +15,7 @@ namespace NotesAPI
             CreateMap<User, UserDataDto>();
             CreateMap<NotesGroup, NotesGroupDataDto>();
 
-            CreateMap<Note, NotesGroupDto>()
+            CreateMap<Note, NoteDto>()
                 .ForMember(dto => dto.NoteData, x => x.MapFrom(x => x))
                 .ForMember(dto => dto.UsersData, x => x.MapFrom(x => x.Users))
                 .ForMember(dto => dto.NotesGroupsData, x => x.MapFrom(x => x.NotesGroups));
@@ -35,6 +35,8 @@ namespace NotesAPI
                 .ForMember(dto => dto.NotesGroupData, x => x.MapFrom(x => x))
                 .ForMember(dto => dto.NotesData, x => x.MapFrom(x => x.Notes))
                 .ForMember(dto => dto.UsersData, x => x.MapFrom(x => x.Users));
+
+            CreateMap<CreateNotesGroupDto, NotesGroup>();
         }
     }
 }
