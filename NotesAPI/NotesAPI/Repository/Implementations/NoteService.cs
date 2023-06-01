@@ -93,5 +93,24 @@ namespace NotesAPI.Repository.Implementations
 
             return note.Id;
         }
+
+        public IEnumerable<NoteDto> GetUserNotes(int userId)
+        {
+            _logger.LogInformation($"GET GetUserNotes with {userId} invoked");
+            var userIds = _dbContext.Users
+                .Where(u => u.Id == userId)
+                .Select(u => u.Id)
+                .ToList();
+
+            var notes = _dbContext.Notes
+                .Include(n => n.NotesGroups)
+                .Where(n => n.Users.Any(u => userIds.Contains(u.Id)))
+                .ToList();
+            //.Include(n => n.Users)
+
+            var notesDtos = _mapper.Map<List<NoteDto>>(notes);
+
+            return notesDtos;
+        }
     }
 }

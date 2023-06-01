@@ -33,7 +33,7 @@ namespace NotesAPI.Controllers
         }
 
         [HttpPost("login")]
-        public ActionResult<UserDto> LoginUser([FromBody] UserLoginDto dto)
+        public ActionResult<int> LoginUser([FromBody] UserLoginDto dto)
         {
             var userId = _userService.LoginUser(dto.Email, dto.Password);
             return Ok(userId);
