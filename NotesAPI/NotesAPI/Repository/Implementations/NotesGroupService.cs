@@ -29,7 +29,8 @@ namespace NotesAPI.Repository.Implementations
         public int AddNotesGroup(CreateNotesGroupDto dto)
         {
             _logger.LogInformation($"POST AddNotesGroup invoked");
-            var user = _dbContext.Users.FirstOrDefault(u => u.Id == dto.UserId);
+            var userId = _userContextService.GetUserId;
+            var user = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
             if (user is null)
             {
                 return -1;

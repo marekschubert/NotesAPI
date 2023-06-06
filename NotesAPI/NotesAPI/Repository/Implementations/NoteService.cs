@@ -80,7 +80,8 @@ namespace NotesAPI.Repository.Implementations
         public int AddNote(CreateNoteDto dto)
         {
             _logger.LogInformation($"POST AddNote invoked");
-            var user = _dbContext.Users.FirstOrDefault(u => u.Id == dto.UserId);
+            var userId = _userContextService.GetUserId;
+            var user = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
             var notesGroup = _dbContext.NotesGroups.FirstOrDefault(u => u.Id == dto.NotesGroupId);
             if (user is null || notesGroup is null)
             {
@@ -88,6 +89,8 @@ namespace NotesAPI.Repository.Implementations
             }
 
             var note = _mapper.Map<Note>(dto);
+
+            note.CreationDate = DateTime.Now;
             note.Users = new List<User> { user };
             note.NotesGroups = new List<NotesGroup> { notesGroup };
             

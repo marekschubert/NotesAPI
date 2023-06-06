@@ -11,7 +11,7 @@ namespace NotesAPI.Controllers
 {
     [Route("/api/notes_group")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class NotesGroupController : ControllerBase
     {
         private readonly INotesGroupService _notesGroupService;
