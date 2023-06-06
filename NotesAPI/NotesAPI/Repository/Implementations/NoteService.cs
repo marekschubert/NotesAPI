@@ -7,6 +7,7 @@ using NotesAPI.Models.Dto.CreationDto;
 using NotesAPI.Models.Dto.Data;
 using NotesAPI.Models.Entities;
 using NotesAPI.Repository.Interfaces;
+using RestaurantAPI.Services.Interfaces;
 
 namespace NotesAPI.Repository.Implementations
 {
@@ -15,11 +16,13 @@ namespace NotesAPI.Repository.Implementations
         private readonly MainDbContext _dbContext;
         private readonly IMapper _mapper;
         private readonly ILogger<NoteService> _logger;
-        public NoteService(MainDbContext dbContext, IMapper mapper, ILogger<NoteService> logger)
+        private readonly IUserContextService _userContextService;
+        public NoteService(MainDbContext dbContext, IMapper mapper, ILogger<NoteService> logger, IUserContextService userContextService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _logger = logger;
+            _userContextService = userContextService;
         }
 
         public IEnumerable<NoteDto> GetAllNotes()
@@ -97,20 +100,21 @@ namespace NotesAPI.Repository.Implementations
         public IEnumerable<NoteDto> GetUserNotes(int userId)
         {
             _logger.LogInformation($"GET GetUserNotes with {userId} invoked");
-            var userIds = _dbContext.Users
-                .Where(u => u.Id == userId)
-                .Select(u => u.Id)
-                .ToList();
 
             var notes = _dbContext.Notes
                 .Include(n => n.NotesGroups)
-                .Where(n => n.Users.Any(u => userIds.Contains(u.Id)))
+                .Where(n => n.Users.Any(u => u.Id == userId))
                 .ToList();
-            //.Include(n => n.Users)
 
             var notesDtos = _mapper.Map<List<NoteDto>>(notes);
 
             return notesDtos;
+        }
+
+        public IEnumerable<NoteDto> GetUsersNotes()
+        {
+            var userId = _userContextService.GetUserId;
+            return GetUserNotes((int)userId);
         }
     }
 }

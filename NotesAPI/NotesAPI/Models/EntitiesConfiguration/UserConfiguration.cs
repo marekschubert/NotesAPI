@@ -12,7 +12,7 @@ namespace NotesAPI.Models.EntitiesConfiguration
 
             builder.Property(u => u.Email).IsRequired().HasMaxLength(128);
 
-            builder.Property(u => u.Password).IsRequired();
+            builder.Property(u => u.PasswordHash).IsRequired();
 
 
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.IdentityModel.Tokens;
 using NotesAPI.Models.Dto;
@@ -11,6 +12,7 @@ namespace NotesAPI.Controllers
 {
     [Route("/api/note")]
     [ApiController]
+    //[Authorize()]
     public class NoteController : ControllerBase
     {
         private readonly INoteService _noteService;
@@ -41,6 +43,12 @@ namespace NotesAPI.Controllers
             return Ok(notes);
         }
 
+        [HttpGet("user")]
+        public ActionResult<IEnumerable<NoteDto>> GetUsersNotes()
+        {
+            var notes = _noteService.GetUsersNotes();
+            return Ok(notes);
+        }
 
         [HttpPost]
         public ActionResult AddNote([FromBody] CreateNoteDto dto)

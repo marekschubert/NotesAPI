@@ -1,19 +1,23 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using NotesAPI.Models;
 using NotesAPI.Models.Entities;
+using System;
 
 namespace NotesAPI.Repository
 {
     public class NotesApiSeeder
     {
         private readonly MainDbContext _dbContext;
+        private readonly IPasswordHasher<NotesApiSeeder> _passwordHasher;
 
         private List<Note> _notes;
         private List<NotesGroup> _notesGroups;
         private List<User> _users;
-        public NotesApiSeeder(MainDbContext dbContext)
+        public NotesApiSeeder(MainDbContext dbContext, IPasswordHasher<NotesApiSeeder> passwordHasher)
         {
             _dbContext = dbContext;
+            _passwordHasher = passwordHasher;
             _notes = GetNotes();
             _notesGroups = GetNotesGroups();
             _users = GetUsers();
@@ -50,6 +54,7 @@ namespace NotesAPI.Repository
 
         private List<User> GetUsers()
         {
+            var password = "Pass123.";
             var users = new List<User>()
             {
                 new User()
@@ -58,7 +63,7 @@ namespace NotesAPI.Repository
                     FirstName = "John",
                     LastName = "Doe",
                     Email = "john.doe@gmail.com",
-                    Password = "Pass123,./",
+                    PasswordHash = _passwordHasher.HashPassword(this, password),
                     Notes = new List<Note>() 
                     {
                         _notes[0], _notes[1]
@@ -74,7 +79,7 @@ namespace NotesAPI.Repository
                     FirstName = "Michael",
                     LastName = "Smith",
                     Email = "michael.smith@gmail.com",
-                    Password = "Pass123,./",
+                    PasswordHash = _passwordHasher.HashPassword(this, password),
                     Notes = new List<Note>()
                     {
                         _notes[2], _notes[3]

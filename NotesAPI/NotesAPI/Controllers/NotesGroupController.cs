@@ -1,13 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NotesAPI.Models.Dto;
 using NotesAPI.Models.Dto.CreationDto;
 using NotesAPI.Models.Dto.Data;
+using NotesAPI.Models.Dto.ReturnDto;
+using NotesAPI.Repository.Implementations;
 using NotesAPI.Repository.Interfaces;
 
 namespace NotesAPI.Controllers
 {
     [Route("/api/notes_group")]
     [ApiController]
+    [Authorize]
     public class NotesGroupController : ControllerBase
     {
         private readonly INotesGroupService _notesGroupService;
@@ -28,6 +32,13 @@ namespace NotesAPI.Controllers
         public ActionResult<NotesGroupDto> GetNotesGroupById([FromRoute] int id)
         {
             var notesGroup = _notesGroupService.GetNotesGroupById(id);
+            return Ok(notesGroup);
+        }
+
+        [HttpGet("user")]
+        public ActionResult<IEnumerable<NotesGroupNameSizeDto>> GetUsersNotesGroups()
+        {
+            var notesGroup = _notesGroupService.GetUsersNotesGroups();
             return Ok(notesGroup);
         }
 

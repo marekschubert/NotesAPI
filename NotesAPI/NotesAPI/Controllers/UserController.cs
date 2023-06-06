@@ -4,11 +4,13 @@ using NotesAPI.Models.Dto.Data;
 using NotesAPI.Models.Dto;
 using NotesAPI.Repository.Interfaces;
 using NotesAPI.Models.Dto.LoginDto;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NotesAPI.Controllers
 {
     [Route("/api/user")]
     [ApiController]
+   // [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -32,13 +34,16 @@ namespace NotesAPI.Controllers
             return Ok(user);
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
-        public ActionResult<int> LoginUser([FromBody] UserLoginDto dto)
+        public ActionResult<string> LoginUser([FromBody] UserLoginDto dto)
         {
-            var userId = _userService.LoginUser(dto.Email, dto.Password);
+            var userId = _userService.LoginUser(dto);
+            //return Ok(dto);
             return Ok(userId);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult AddUser([FromBody] CreateUserDto dto)
         {

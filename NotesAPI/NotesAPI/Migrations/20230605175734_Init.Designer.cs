@@ -12,7 +12,7 @@ using NotesAPI.Models;
 namespace NotesAPI.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    [Migration("20230423154548_Init")]
+    [Migration("20230605175734_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -109,7 +109,7 @@ namespace NotesAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

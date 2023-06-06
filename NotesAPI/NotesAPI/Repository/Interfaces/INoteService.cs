@@ -9,6 +9,7 @@ namespace NotesAPI.Repository.Interfaces
     {
         IEnumerable<NoteDto> GetAllNotes();
         IEnumerable<NoteDto> GetUserNotes(int userId);
+        IEnumerable<NoteDto> GetUsersNotes();
         NoteDto GetNoteById(int noteId);
         int AddNote(CreateNoteDto dto);
         bool UpdateNote(int id, NoteDataDto dto);

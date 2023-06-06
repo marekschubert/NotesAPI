@@ -5,8 +5,10 @@ using NotesAPI.Models;
 using NotesAPI.Models.Dto;
 using NotesAPI.Models.Dto.CreationDto;
 using NotesAPI.Models.Dto.Data;
+using NotesAPI.Models.Dto.ReturnDto;
 using NotesAPI.Models.Entities;
 using NotesAPI.Repository.Interfaces;
+using RestaurantAPI.Services.Interfaces;
 
 namespace NotesAPI.Repository.Implementations
 {
@@ -15,11 +17,13 @@ namespace NotesAPI.Repository.Implementations
         private readonly MainDbContext _dbContext;
         private readonly IMapper _mapper;
         private readonly ILogger<NoteService> _logger;
-        public NotesGroupService(MainDbContext dbContext, IMapper mapper, ILogger<NoteService> logger)
+        private readonly IUserContextService _userContextService;
+        public NotesGroupService(MainDbContext dbContext, IMapper mapper, ILogger<NoteService> logger, IUserContextService userContextService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _logger = logger;
+            _userContextService = userContextService;
         }
 
         public int AddNotesGroup(CreateNotesGroupDto dto)
@@ -78,6 +82,26 @@ namespace NotesAPI.Repository.Implementations
             var result = notesGroup == null ? null : _mapper.Map<NotesGroupDto>(notesGroup);
 
             return result;
+        }
+
+        public IEnumerable<NotesGroupNameSizeDto> GetUsersNotesGroups()
+        {
+            var userId = _userContextService.GetUserId;
+
+            _logger.LogInformation($"GET GetUsersNotesGroups with {userId} invoked");
+
+            var notesGroups = _dbContext.NotesGroups
+                .Include(n => n.Notes)
+                .Where(n => n.Users.Any(u => u.Id == userId))
+                .ToList();
+
+            var notesGroupsDtos = notesGroups.Select(n => new NotesGroupNameSizeDto()
+            {
+                NotesGroupData = _mapper.Map<NotesGroupDataDto>(n),
+                Size = n.Notes.Count()
+            }).ToList();
+
+            return notesGroupsDtos;
         }
 
         public bool UpdateNotesGroup(int id, NotesGroupDataDto dto)
